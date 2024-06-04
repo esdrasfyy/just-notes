@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./index.css";
 import { MdOutlineAdd } from "react-icons/md";
 import axios from "axios";
+import config from "../config/config.json";
 
 function FormTodo({ setAllNotes, allNotes }) {
   const [activeForm, setActiveForm] = useState(true);
@@ -19,14 +20,11 @@ function FormTodo({ setAllNotes, allNotes }) {
     try {
       setLoading(true);
 
-      const resp = await axios.post(
-        `https://back-notes-fen6.onrender.com/notes/${username}`,
-        {
-          title: title,
-          note: noteAdd,
-          priority: false,
-        }
-      );
+      const resp = await axios.post(`${config.api}/notes/${username}`, {
+        title: title,
+        note: noteAdd,
+        priority: false,
+      });
 
       setNoteAdd("");
       setTitles("");

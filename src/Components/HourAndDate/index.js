@@ -5,12 +5,9 @@ function HourAndDate() {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
-    // Atualiza a hora e a data a cada segundo
     const intervalId = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000);
-
-    // Limpa o intervalo quando o componente é desmontado
     return () => {
       clearInterval(intervalId);
     };
@@ -19,7 +16,7 @@ function HourAndDate() {
   const optionsTime = {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: false, // Exibe em formato 24 horas
+    hour12: false,
   };
 
   const dayOfWeek = currentDateTime.toLocaleDateString("pt-BR", {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Note from "../Note";
 import axios from "axios";
 import Header from "../Header";
@@ -6,6 +6,7 @@ import "./index.css";
 import FormTodo from "../FormTodo";
 import HourAndDate from "../HourAndDate";
 import { AiOutlineClose, AiOutlineLoading3Quarters } from "react-icons/ai";
+import config from "../config/config.json";
 
 function Todo() {
   const token = localStorage.getItem("tokenLogin");
@@ -13,10 +14,9 @@ function Todo() {
   const [allNotes, setAllNotes] = useState([]);
   const [username] = useState(localStorage.getItem("username") || null);
   const [loading, setLoading] = useState(true); // Adicione um estado de loading
+  const apiUrl = `${config.api}/auth/${username}`;
 
-  const apiUrl = `https://back-notes-fen6.onrender.com/auth/${username}`;
-
-  const getAllNotes = async () => {
+  const getAllNotes = useCallback(async () => {
     setLoading(true);
 
     if (token) {
@@ -34,17 +34,16 @@ function Todo() {
         setLoading(false);
       }
     }
-  };
-
+  }, [token, apiUrl, setLoading, setAllNotes]);
   useEffect(() => {
     getAllNotes();
-  }, []);
+  }, [getAllNotes]);
 
   const handleDeletePost = async (id) => {
     setLoading(true); // Ative o estado de loading ao excluir uma nota
 
     const deletedNote = await axios.delete(
-      `https://back-notes-fen6.onrender.com/users/${username}/${id}`
+      `${config.api}/users/${username}/${id}`
     );
 
     if (deletedNote) {
@@ -66,9 +65,7 @@ function Todo() {
         <main>
           {loading ? (
             <div className="divLoading">
-              <AiOutlineLoading3Quarters
-                className="loading-spinner"
-              />
+              <AiOutlineLoading3Quarters className="loading-spinner" />
             </div>
           ) : (
             <ul>

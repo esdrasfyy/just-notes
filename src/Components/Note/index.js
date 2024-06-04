@@ -3,6 +3,7 @@ import "./styles-priority.css";
 import "./styles.css";
 import { FaExclamationTriangle, FaTimes } from "react-icons/fa";
 import axios from "axios";
+import config from "../config/config.json"
 
 function Note({ title, notes, priority, id, handleDeletePost }) {
   const [changedNote, setChangedNote] = useState(notes);
@@ -13,7 +14,7 @@ function Note({ title, notes, priority, id, handleDeletePost }) {
     if (changedNote !== notes) {
       try {
         await axios.post(
-          `https://back-notes-fen6.onrender.com/users/${username}/change/${id}`,
+          `${config.api}/users/${username}/change/${id}`,
           {
             note: changedNote,
           }
@@ -26,7 +27,7 @@ function Note({ title, notes, priority, id, handleDeletePost }) {
   const handlePriority = async () => {
     setOnPriority(!onPriority);
     await axios.post(
-      `https://back-notes-fen6.onrender.com/priorities/${username}/${id}`,
+      `${config.api}/priorities/${username}/${id}`,
       {
         priority: onPriority,
       }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./index.css";
 import { BiLockAlt, BiUser } from "react-icons/bi";
 import axios from "axios";
+import config from "../config/config.json";
 
 function FormLogin({ ShowRegisterOrLogin }) {
   const [password, setPassword] = useState("");
@@ -14,13 +15,10 @@ function FormLogin({ ShowRegisterOrLogin }) {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://back-notes-fen6.onrender.com/req/login",
-        {
-          username: username,
-          password: password,
-        }
-      );
+      const response = await axios.post(`${config.api}/req/login`, {
+        username: username,
+        password: password,
+      });
 
       const data = response.data;
       const token = data.token;
@@ -52,7 +50,7 @@ function FormLogin({ ShowRegisterOrLogin }) {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <label  for="username" >Username</label>
+            <label for="username">Username</label>
             <BiUser className="iconLogin" />
           </div>
           <div className="input-box animation">

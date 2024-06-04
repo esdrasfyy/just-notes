@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import { BiEnvelope, BiLockAlt, BiUser } from "react-icons/bi";
+import config from "../config/config.json"
 import axios from "axios";
 
 function Register({ ShowRegisterOrLogin }) {
@@ -36,14 +37,14 @@ function Register({ ShowRegisterOrLogin }) {
       setIsSubmitting(true);
       setLoading(true);
 
-      await axios.post("https://back-notes-fen6.onrender.com/register", {
+      await axios.post(`${config.api}/register`, {
         username: username,
         email: email,
         password: password,
       });
       try {
         const response = await axios.post(
-          "https://back-notes-fen6.onrender.com/req/login",
+          `${config.api}/req/login`,
           {
             username: username,
             password: password,
